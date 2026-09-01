@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Stay — Guest Guide</title>
+<meta name="description" content="Everything you need during your stay: check-in, Wi-Fi, house guide and local favorites.">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+<meta name="theme-color" content="#1F3A33">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="The Stay">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1F3A33" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <style>
+    :root{--p:#1F3A33;--sec:#F2EDE4;--acc:#C0653C;--heroH:392px}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;padding:0;background:#EDE9E2}
+    body{font-family:'DM Sans',system-ui,sans-serif;color:#16211E;text-wrap:pretty;-webkit-font-smoothing:antialiased}
+    button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+    a{color:var(--acc);text-decoration:none}
+    a:hover{color:var(--p)}
+    i{font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;font-size:22px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;-webkit-font-feature-settings:'liga';-webkit-font-smoothing:antialiased;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+    ::selection{background:var(--sec)}
+    @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    @keyframes toastIn{0%{opacity:0;transform:translate(-50%,14px)}12%{opacity:1;transform:translate(-50%,0)}88%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,8px)}}
+    @keyframes grow{from{opacity:0;max-height:0}to{opacity:1;max-height:900px}}
+  </style>
+  <script src="./data/property.js"></script>
+  <script>
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch(function () {});
+      });
+    }
+  </script>
+</helmet>
+
+<div style="min-height:100dvh;background:#EDE9E2;display:flex;justify-content:center">
+  <div style="width:100%;max-width:468px;background:#FBF9F6;min-height:100dvh;position:relative;overflow:hidden;box-shadow:0 0 0 1px rgba(22,33,30,.06),0 30px 80px -40px rgba(22,33,30,.4)">
+
+    <!-- ================= HOME ================= -->
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <div style="animation:rise .45s ease both">
+        <div style="position:relative;height:var(--heroH);background:var(--p)">
+          <sc-if value="{{ hero.has }}" hint-placeholder-val="{{ false }}">
+            <div role="img" aria-label="{{ name }}" style="position:absolute;inset:0;background-image:url({{ hero.src }});background-size:cover;background-position:center"></div>
+          </sc-if>
+          <sc-if value="{{ hero.no }}" hint-placeholder-val="{{ true }}">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(135deg,#22403A 0 10px,#1D3832 10px 20px);color:rgba(251,249,246,.62);font:500 10px/1.6 ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:0 40px">{{ hero.label }}</div>
+          </sc-if>
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,22,19,.88) 0%,rgba(12,22,19,.35) 42%,rgba(12,22,19,.15) 70%,rgba(12,22,19,.3) 100%)"></div>
+          <div style="position:absolute;top:0;left:0;right:0;padding:calc(env(safe-area-inset-top) + 18px) 22px 0;display:flex;align-items:center;justify-content:space-between">
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:7px 12px 7px 9px;border-radius:999px;background:rgba(251,249,246,.16);backdrop-filter:blur(10px);color:#FBF9F6;font:500 11.5px/1 'DM Sans',sans-serif;letter-spacing:.04em"><i style="font-size:15px">location_on</i>{{ cityState }}</span>
+            <button onClick="{{ goHost }}" style="display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;background:rgba(251,249,246,.16);backdrop-filter:blur(10px);color:#FBF9F6;font:500 11.5px/1 'DM Sans',sans-serif" style-hover="background:rgba(251,249,246,.28)"><i style="font-size:15px">chat_bubble</i>Host</button>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:0 22px 52px">
+            <p style="margin:0 0 8px;color:rgba(251,249,246,.72);font:500 11px/1 'DM Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase">Welcome to</p>
+            <h1 style="margin:0;color:#FBF9F6;font:400 44px/1.02 'Instrument Serif',Georgia,serif;letter-spacing:-.02em">{{ name }}</h1>
+            <p style="margin:10px 0 0;color:rgba(251,249,246,.82);font:400 15px/1.45 'DM Sans',sans-serif;max-width:300px">{{ tagline }}</p>
+          </div>
+        </div>
+
+        <div style="padding:0 16px;margin-top:-34px;position:relative;display:flex;flex-direction:column;gap:14px">
+          <div style="background:#fff;border-radius:24px;padding:6px;box-shadow:0 1px 2px rgba(22,33,30,.05),0 18px 36px -22px rgba(22,33,30,.45)">
+            <div style="display:grid;grid-template-columns:1fr 1px 1fr;align-items:center">
+              <button onClick="{{ goCheckIn }}" style="display:flex;flex-direction:column;gap:5px;padding:16px 14px;border-radius:20px;text-align:left" style-hover="background:#FBF9F6">
+                <span style="display:inline-flex;align-items:center;gap:6px;color:#7B8783;font:500 10.5px/1 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase"><i style="font-size:14px">login</i>Check-in</span>
+                <span style="font:400 22px/1 'Instrument Serif',Georgia,serif;color:#16211E">{{ checkInTime }}</span>
+              </button>
+              <div style="height:38px;background:rgba(22,33,30,.09)"></div>
+              <button onClick="{{ goCheckOut }}" style="display:flex;flex-direction:column;gap:5px;padding:16px 14px;border-radius:20px;text-align:left" style-hover="background:#FBF9F6">
+                <span style="display:inline-flex;align-items:center;gap:6px;color:#7B8783;font:500 10.5px/1 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase"><i style="font-size:14px">logout</i>Check-out</span>
+                <span style="font:400 22px/1 'Instrument Serif',Georgia,serif;color:#16211E">{{ checkOutTime }}</span>
+              </button>
+            </div>
+          </div>
+
+          <sc-if value="{{ sWifi }}" hint-placeholder-val="{{ true }}">
+            <div style="background:var(--p);border-radius:24px;padding:18px 18px 16px;color:#FBF9F6;box-shadow:0 14px 30px -20px rgba(31,58,51,.9)">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <div style="min-width:0">
+                  <p style="margin:0 0 6px;color:rgba(251,249,246,.6);font:500 10.5px/1 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase">Wi-Fi network</p>
+                  <p style="margin:0;font:600 17px/1.2 'DM Sans',sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ wifiNetwork }}</p>
+                </div>
+                <i style="font-size:30px;color:rgba(251,249,246,.5)">wifi</i>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:14px">
+                <button onClick="{{ copyWifi }}" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:48px;border-radius:15px;background:#FBF9F6;color:var(--p);font:600 14.5px/1 'DM Sans',sans-serif" style-hover="background:#fff" style-active="transform:scale(.98)"><i style="font-size:19px">content_copy</i>Copy password</button>
+                <button onClick="{{ goWifi }}" style="min-height:48px;padding:0 16px;border-radius:15px;background:rgba(251,249,246,.14);color:#FBF9F6;font:600 14.5px/1 'DM Sans',sans-serif" style-hover="background:rgba(251,249,246,.24)">Details</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <div style="background:#fff;border-radius:24px;padding:20px;box-shadow:0 1px 2px rgba(22,33,30,.05)">
+            <h2 style="margin:0 0 10px;font:400 25px/1.15 'Instrument Serif',Georgia,serif;letter-spacing:-.01em">{{ welcomeTitle }}</h2>
+            <p style="margin:0;font:400 15px/1.6 'DM Sans',sans-serif;color:#4A5854">{{ welcomeMessage }}</p>
+          </div>
+
+          <div>
+            <p style="margin:14px 0 10px 4px;color:#7B8783;font:500 10.5px/1 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase">Quick actions</p>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <sc-for list="{{ quickActions }}" as="qa" hint-placeholder-count="6">
+                <button onClick="{{ qa.onClick }}" style="display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:18px;min-height:104px;padding:14px;border-radius:20px;background:#fff;box-shadow:0 1px 2px rgba(22,33,30,.05);text-align:left;transition:transform .18s ease,box-shadow .18s ease" style-hover="box-shadow:0 10px 24px -16px rgba(22,33,30,.5);transform:translateY(-2px)" style-active="transform:scale(.97)">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;background:var(--sec);color:var(--p)"><i style="font-size:21px">{{ qa.icon }}</i></span>
+                  <span style="font:600 13.5px/1.25 'DM Sans',sans-serif;color:#16211E">{{ qa.label }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <sc-if value="{{ sEmergency }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ goEmergency }}" style="display:flex;align-items:center;gap:12px;width:100%;padding:15px 16px;border-radius:20px;background:#F7EAE3;text-align:left;margin-top:2px" style-hover="background:#F3E0D6">
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:11px;background:var(--acc);color:#fff"><i style="font-size:20px">emergency</i></span>
+              <span style="flex:1"><span style="display:block;font:600 14px/1.3 'DM Sans',sans-serif;color:#16211E">Emergency &amp; safety info</span><span style="display:block;font:400 12.5px/1.4 'DM Sans',sans-serif;color:#7B6055">Hospital, exits, extinguisher, 911</span></span>
+              <i style="font-size:20px;color:#B08B79">chevron_right</i>
+            </button>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ================= STAY ================= -->
+    <sc-if value="{{ isStay }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:rise .4s ease both">
+        <div style="position:sticky;top:0;z-index:20;background:rgba(251,249,246,.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(22,33,30,.07);padding:calc(env(safe-area-inset-top) + 16px) 0 0">
+          <h1 style="margin:0 20px 12px;font:400 30px/1 'Instrument Serif',Georgia,serif;letter-spacing:-.02em">Your stay</h1>
+          <div style="display:flex;gap:8px;overflow-x:auto;padding:0 20px 12px;scrollbar-width:none">
+            <sc-for list="{{ stayJumps }}" as="j" hint-placeholder-count="4">
+              <button onClick="{{ j.onClick }}" style="flex:0 0 auto;padding:9px 14px;border-radius:999px;background:#fff;border:1px solid rgba(22,33,30,.1);font:500 13px/1 'DM Sans',sans-serif;color:#3C4A46" style-hover="border-color:var(--p);color:var(--p)">{{ j.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:4px 16px 0;display:flex;flex-direction:column;gap:12px">
+
+          <sc-if value="{{ sCheckIn }}" hint-placeholder-val="{{ true }}">
+            <div id="sec-checkin" style="scroll-margin-top:120px;padding-top:14px">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;margin:0 4px 12px">
+                <h2 style="margin:0;font:400 24px/1.1 'Instrument Serif',Georgia,serif">Check-in</h2>
+                <span style="font:600 12px/1 'DM Sans',sans-serif;color:var(--acc);letter-spacing:.04em">{{ checkInTime }} onward</span>
+              </div>
+              <div style="background:#fff;border-radius:24px;padding:6px;box-shadow:0 1px 2px rgba(22,33,30,.05);display:flex;flex-direction:column">
+                <sc-for list="{{ checkInBlocks }}" as="b" hint-placeholder-count="4">
+                  <div style="display:flex;gap:13px;padding:14px;border-bottom:1px solid rgba(22,33,30,.06)">
+                    <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:11px;background:var(--sec);color:var(--p)"><i style="font-size:19px">{{ b.icon }}</i></span>
+                    <div style="min-width:0">
+                      <p style="margin:0 0 4px;font:600 14px/1.3 'DM Sans',sans-serif">{{ b.title }}</p>
+                      <p style="margin:0;font:400 14px/1.55 'DM Sans',sans-serif;color:#5A6864">{{ b.body }}</p>
+                    </div>
+                  </div>
+                </sc-for>
+                <div style="margin:8px;padding:14px;border-radius:18px;background:#F7EAE3;display:flex;gap:11px">
+                  <i style="font-size:19px;color:var(--acc)">lock</i>
+                  <p style="margin:0;font:500 13.5px/1.5 'DM Sans',sans-serif;color:#7B5A48">{{ accessCodeNote }}</p>
+                </div>
+                <a href="{{ directionsHref }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:0 8px 8px;min-height:52px;border-radius:18px;background:var(--p);color:#FBF9F6;font:600 15px/1 'DM Sans',sans-serif" style-hover="color:#fff;opacity:.92"><i style="font-size:20px">directions</i>Get directions</a>
+              </div>
+              <sc-if value="{{ hasCheckInPhotos }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:10px;overflow-x:auto;padding:12px 4px 2px;scrollbar-width:none">
+                  <sc-for list="{{ checkInPhotos }}" as="ph" hint-placeholder-count="2">
+                    <div role="img" aria-label="Check-in detail" style="flex:0 0 auto;width:200px;height:140px;border-radius:18px;background-color:#EFEBE4;background-image:url({{ ph }});background-size:cover;background-position:center"></div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ sWifi }}" hint-placeholder-val="{{ true }}">
+            <div id="sec-wifi" style="scroll-margin-top:120px;padding-top:14px">
+              <h2 style="margin:0 4px 12px;font:400 24px/1.1 'Instrument Serif',Georgia,serif">Wi-Fi</h2>
+              <div style="background:#fff;border-radius:24px;padding:18px;box-shadow:0 1px 2px rgba(22,33,30,.05)">
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <div style="padding:14px 16px;border-radius:18px;background:#FBF9F6">
+                    <p style="margin:0 0 5px;color:#7B8783;font:500 10.5px/1 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase">Network</p>
+                    <p style="margin:0;font:600 17px/1.2 'DM Sans',sans-serif;word-break:break-all">{{ wifiNetwork }}</p>
+                  </div>
+                  <div style="padding:14px 16px;border-radius:18px;background:#FBF9F6">
+                    <p style="margin:0 0 5px;color:#7B8783;font:500 10.5px/1 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase">Password</p>
+                    <p style="margin:0;font:500 17px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.02em;word-break:break-all">{{ wifiPassword }}</p>
+                  </div>
+                </div>
+                <button onClick="{{ copyWifi }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;margin-top:12px;border-radius:18px;background:var(--p);color:#FBF9F6;font:600 15px/1 'DM Sans',sans-serif" style-hover="opacity:.92" style-active="transform:scale(.99)"><i style="font-size:20px">content_copy</i>Copy password</button>
+                <sc-if value="{{ hasWifiQr }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(22,33,30,.07)">
+                    <div role="img" aria-label="Wi-Fi QR code" style="width:168px;height:168px;background-image:url({{ wifiQr }});background-size:contain;background-position:center;background-repeat:no-repeat"></div>
+                    <p style="margin:0;font:400 12.5px/1.4 'DM Sans',sans-serif;color:#7B8783">Scan with your camera to join</p>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ hasWifiNote }}" hint-placeholder-val="{{ true }}">
+                  <p style="margin:14px 0 0;font:400 13.5px/1.55 'DM Sans',sans-serif;color:#7B8783">{{ wifiNote }}</p>
+                </sc-if>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ sRules }}" hint-placeholder-val="{{ true }}">
+            <div id="sec-rules" style="scroll-margin-top:120px;padding-top:14px">
+              <h2 style="margin:0 4px 12px;font:400 24px/1.1 'Instrument Serif',Georgia,serif">House rules</h2>
+              <div style="background:#fff;border-radius:24px;padding:4px;box-shadow:0 1px 2px rgba(22,33,30,.05)">
+                <sc-for list="{{ rules }}" as="r" hint-placeholder-count="6">
+                  <div style="display:flex;gap:13px;padding:15px 14px;border-bottom:1px solid rgba(22,33,30,.06)">
+                    <i style="font-size:21px;color:var(--p);flex:0 0 auto;margin-top:1px">{{ r.icon }}</i>
+                    <div>
+                      <p style="margin:0 0 3px;font:600 14px/1.3 'DM Sans',sans-serif">{{ r.title }}</p>
+                      <p style="margin:0;font:400 13.5px/1.5 'DM Sans',sans-serif;color:#5A6864">{{ r.detail }}</p>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ sGuide }}" hint-placeholder-val="{{ true }}">
+            <div id="sec-guide" style="scroll-margin-top:120px;padding-top:14px">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;margin:0 4px 12px">
+                <h2 style="margin:0;font:400 24px/1.1 'Instrument Serif',Georgia,serif">How things work</h2>
+                <span style="font:500 12px/1 'DM Sans',sans-serif;color:#7B8783">{{ guideCount }} guides</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <sc-for list="{{ guide }}" as="g" hint-placeholder-count="5">
+                  <div style="background:#fff;border-radius:20px;box-shadow:0 1px 2px rgba(22,33,30,.05);overflow:hidden">
+                    <button onClick="{{ g.toggle }}" style="display:flex;align-items:center;gap:13px;width:100%;padding:15px 16px;text-align:left" style-hover="background:#FBF9F6">
+                      <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:13px;background:var(--sec);color:var(--p)"><i style="font-size:21px">{{ g.icon }}</i></span>
+                      <span style="flex:1;min-width:0">
+                        <span style="display:block;font:600 14.5px/1.3 'DM Sans',sans-serif">{{ g.title }}</span>
+                        <span style="display:block;margin-top:3px;font:400 12.5px/1.4 'DM Sans',sans-serif;color:#7B8783">{{ g.description }}</span>
+                      </span>
+                      <i style="font-size:22px;color:#9AA5A1;transition:transform .25s ease;transform:rotate({{ g.rot }}deg)">expand_more</i>
+                    </button>
+                    <sc-if value="{{ g.open }}" hint-placeholder-val="{{ false }}">
+                      <div style="padding:0 16px 16px;animation:grow .3s ease both;overflow:hidden">
+                        <sc-if value="{{ g.hasImage }}" hint-placeholder-val="{{ false }}">
+                          <div role="img" aria-label="{{ g.title }}" style="width:100%;height:170px;border-radius:16px;margin-bottom:14px;background-color:#EFEBE4;background-image:url({{ g.image }});background-size:cover;background-position:center"></div>
+                        </sc-if>
+                        <div style="display:flex;flex-direction:column;gap:11px;padding:15px 16px;border-radius:16px;background:#FBF9F6">
+                          <sc-for list="{{ g.steps }}" as="s" hint-placeholder-count="3">
+                            <div style="display:flex;gap:10px">
+                              <span style="flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--acc);margin-top:7px"></span>
+                              <p style="margin:0;font:400 14px/1.55 'DM Sans',sans-serif;color:#3C4A46">{{ s }}</p>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ================= EXPLORE ================= -->
+    <sc-if value="{{ isExplore }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:rise .4s ease both">
+        <div style="position:sticky;top:0;z-index:20;background:rgba(251,249,246,.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(22,33,30,.07);padding:calc(env(safe-area-inset-top) + 16px) 0 0">
+          <div style="margin:0 20px 12px">
+            <h1 style="margin:0;font:400 30px/1 'Instrument Serif',Georgia,serif;letter-spacing:-.02em">Explore {{ city }}</h1>
+            <p style="margin:6px 0 0;font:400 13px/1.4 'DM Sans',sans-serif;color:#7B8783">Places we go ourselves — not a tourist list.</p>
+          </div>
+          <div style="display:flex;gap:8px;overflow-x:auto;padding:0 20px 12px;scrollbar-width:none">
+            <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+              <button onClick="{{ c.onClick }}" style="flex:0 0 auto;padding:10px 15px;border-radius:999px;font:500 13px/1 'DM Sans',sans-serif;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};transition:all .18s ease">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:16px 16px 0;display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ places }}" as="pl" hint-placeholder-count="3">
+            <div style="background:#fff;border-radius:24px;box-shadow:0 1px 2px rgba(22,33,30,.05),0 16px 32px -26px rgba(22,33,30,.5);overflow:hidden">
+              <div style="position:relative;height:184px;background:#EFEBE4">
+                <sc-if value="{{ pl.img.has }}" hint-placeholder-val="{{ false }}">
+                  <div role="img" aria-label="{{ pl.name }}" style="position:absolute;inset:0;background-image:url({{ pl.img.src }});background-size:cover;background-position:center"></div>
+                </sc-if>
+                <sc-if value="{{ pl.img.no }}" hint-placeholder-val="{{ true }}">
+                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:0 30px;background:repeating-linear-gradient(135deg,#EFEBE4 0 9px,#E6E1D8 9px 18px);color:#8A9490;font:500 10px/1.6 ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;text-align:center">{{ pl.img.label }}</div>
+                </sc-if>
+                <div style="position:absolute;top:12px;left:12px;right:12px;display:flex;flex-wrap:wrap;gap:6px">
+                  <sc-for list="{{ pl.badges }}" as="bd" hint-placeholder-count="1">
+                    <span style="padding:6px 11px;border-radius:999px;background:{{ bd.bg }};color:{{ bd.color }};font:600 11px/1 'DM Sans',sans-serif;letter-spacing:.02em;backdrop-filter:blur(8px)">{{ bd.label }}</span>
+                  </sc-for>
+                </div>
+                <span style="position:absolute;bottom:12px;left:12px;padding:6px 11px;border-radius:999px;background:rgba(12,22,19,.6);backdrop-filter:blur(8px);color:#FBF9F6;font:500 11px/1 'DM Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase">{{ pl.category }}</span>
+              </div>
+              <div style="padding:16px 18px 18px">
+                <h3 style="margin:0 0 8px;font:400 24px/1.15 'Instrument Serif',Georgia,serif;letter-spacing:-.01em">{{ pl.name }}</h3>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px">
+                  <sc-for list="{{ pl.meta }}" as="m" hint-placeholder-count="3">
+                    <span style="display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border-radius:9px;background:#FBF9F6;font:500 12px/1 'DM Sans',sans-serif;color:#5A6864"><i style="font-size:14px;color:#9AA5A1">{{ m.icon }}</i>{{ m.text }}</span>
+                  </sc-for>
+                </div>
+                <p style="margin:0;font:400 14.5px/1.6 'DM Sans',sans-serif;color:#4A5854">{{ pl.description }}</p>
+                <sc-if value="{{ pl.hasNote }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:10px;margin-top:13px;padding:13px 14px;border-radius:16px;background:var(--sec)">
+                    <i style="font-size:18px;color:var(--p);flex:0 0 auto">format_quote</i>
+                    <p style="margin:0;font:400 13.5px/1.55 'DM Sans',sans-serif;color:#3C4A46;font-style:italic">{{ pl.hostNote }}</p>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ pl.hasAddress }}" hint-placeholder-val="{{ true }}">
+                  <p style="margin:12px 0 0;font:400 12.5px/1.4 'DM Sans',sans-serif;color:#9AA5A1">{{ pl.address }}</p>
+                </sc-if>
+                <div style="display:flex;gap:8px;margin-top:14px">
+                  <sc-for list="{{ pl.actions }}" as="a" hint-placeholder-count="2">
+                    <a href="{{ a.href }}" target="{{ a.target }}" rel="noopener" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:46px;border-radius:14px;background:{{ a.bg }};color:{{ a.color }};font:600 13.5px/1 'DM Sans',sans-serif" style-hover="opacity:.9;color:{{ a.color }}"><i style="font-size:18px">{{ a.icon }}</i>{{ a.label }}</a>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+
+          <sc-if value="{{ noPlaces }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:44px 20px;text-align:center">
+              <i style="font-size:34px;color:#C3CBC8">travel_explore</i>
+              <p style="margin:12px 0 0;font:400 14.5px/1.5 'DM Sans',sans-serif;color:#7B8783">Nothing in this category yet.</p>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ sEssentials }}" hint-placeholder-val="{{ true }}">
+            <div style="padding-top:16px">
+              <h2 style="margin:0 4px 4px;font:400 24px/1.1 'Instrument Serif',Georgia,serif">Local essentials</h2>
+              <p style="margin:0 4px 12px;font:400 13px/1.45 'DM Sans',sans-serif;color:#7B8783">The practical stuff, closest first.</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <sc-for list="{{ essentials }}" as="e" hint-placeholder-count="6">
+                  <a href="{{ e.href }}" target="_blank" rel="noopener" style="display:flex;flex-direction:column;gap:10px;padding:15px;border-radius:20px;background:#fff;box-shadow:0 1px 2px rgba(22,33,30,.05);color:inherit;min-height:132px" style-hover="box-shadow:0 10px 24px -18px rgba(22,33,30,.6);color:inherit">
+                    <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:11px;background:var(--sec);color:var(--p)"><i style="font-size:19px">{{ e.icon }}</i></span>
+                    <span style="flex:1">
+                      <span style="display:block;font:500 10px/1 'DM Sans',sans-serif;color:var(--acc);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px">{{ e.type }}</span>
+                      <span style="display:block;font:600 13.5px/1.3 'DM Sans',sans-serif">{{ e.name }}</span>
+                      <span style="display:block;margin-top:3px;font:400 12px/1.4 'DM Sans',sans-serif;color:#7B8783">{{ e.note }}</span>
+                    </span>
+                    <span style="display:inline-flex;align-items:center;gap:5px;font:500 11.5px/1 'DM Sans',sans-serif;color:#5A6864"><i style="font-size:14px;color:#9AA5A1">near_me</i>{{ e.distance }}</span>
+                  </a>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ================= INFO ================= -->
+    <sc-if value="{{ isInfo }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:rise .4s ease both">
+        <div style="padding:calc(env(safe-area-inset-top) + 16px) 20px 12px">
+          <h1 style="margin:0;font:400 30px/1 'Instrument Serif',Georgia,serif;letter-spacing:-.02em">Check-out &amp; safety</h1>
+        </div>
+        <div style="padding:0 16px;display:flex;flex-direction:column;gap:12px">
+
+          <sc-if value="{{ sCheckOut }}" hint-placeholder-val="{{ true }}">
+            <div id="sec-checkout" style="scroll-margin-top:20px;background:#fff;border-radius:24px;padding:18px;box-shadow:0 1px 2px rgba(22,33,30,.05)">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <div>
+                  <p style="margin:0 0 5px;color:#7B8783;font:500 10.5px/1 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase">Check-out by</p>
+                  <p style="margin:0;font:400 27px/1 'Instrument Serif',Georgia,serif">{{ checkOutTime }}</p>
+                </div>
+                <span style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:var(--sec);color:var(--p)"><i style="font-size:23px">logout</i></span>
+              </div>
+              <p style="margin:14px 0 0;font:400 14.5px/1.6 'DM Sans',sans-serif;color:#4A5854">{{ checkOutInstructions }}</p>
+
+              <div style="margin-top:18px;padding-top:16px;border-top:1px solid rgba(22,33,30,.07)">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                  <p style="margin:0;font:600 13px/1 'DM Sans',sans-serif;color:#3C4A46">Check-out list</p>
+                  <p style="margin:0;font:500 12px/1 'DM Sans',sans-serif;color:#7B8783">{{ doneLabel }}</p>
+                </div>
+                <div style="height:6px;border-radius:999px;background:#EFEBE4;overflow:hidden">
+                  <div style="height:100%;border-radius:999px;background:var(--acc);width:{{ donePct }}%;transition:width .35s cubic-bezier(.4,0,.2,1)"></div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+                  <sc-for list="{{ tasks }}" as="t" hint-placeholder-count="6">
+                    <button onClick="{{ t.toggle }}" style="display:flex;align-items:center;gap:13px;width:100%;min-height:56px;padding:12px 14px;border-radius:16px;background:{{ t.rowBg }};text-align:left;transition:background .2s ease">
+                      <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:9px;border:2px solid {{ t.boxBorder }};background:{{ t.boxBg }};color:#fff;transition:all .2s ease"><i style="font-size:17px">{{ t.mark }}</i></span>
+                      <span style="font:500 14.5px/1.4 'DM Sans',sans-serif;color:{{ t.textColor }};text-decoration:{{ t.strike }}">{{ t.label }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+                <button onClick="{{ readyClick }}" style="display:inline-flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:54px;margin-top:14px;border-radius:18px;background:{{ readyBg }};color:{{ readyColor }};font:600 15px/1 'DM Sans',sans-serif;transition:all .25s ease" style-active="transform:scale(.99)"><i style="font-size:20px">{{ readyIcon }}</i>{{ readyLabel }}</button>
+                <sc-if value="{{ ready }}" hint-placeholder-val="{{ false }}">
+                  <p style="margin:10px 2px 0;font:400 13px/1.5 'DM Sans',sans-serif;color:#7B8783;text-align:center">Thanks — safe travels. Message {{ hostFirstName }} if you left anything behind.</p>
+                </sc-if>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ sEmergency }}" hint-placeholder-val="{{ true }}">
+            <div id="sec-emergency" style="scroll-margin-top:20px;background:#fff;border-radius:24px;padding:18px;box-shadow:0 1px 2px rgba(22,33,30,.05)">
+              <h2 style="margin:0 0 4px;font:400 24px/1.1 'Instrument Serif',Georgia,serif">Emergency</h2>
+              <p style="margin:0 0 14px;font:400 13px/1.45 'DM Sans',sans-serif;color:#7B8783">{{ fullAddress }}</p>
+              <a href="tel:911" style="display:inline-flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:58px;border-radius:18px;background:var(--acc);color:#fff;font:700 16px/1 'DM Sans',sans-serif;letter-spacing:.01em" style-hover="opacity:.92;color:#fff"><i style="font-size:22px">call</i>Call 911</a>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+                <sc-for list="{{ emergencyCalls }}" as="ec" hint-placeholder-count="2">
+                  <a href="{{ ec.href }}" style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:18px;background:#FBF9F6;color:inherit" style-hover="background:#F4F1EB;color:inherit">
+                    <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:11px;background:#fff;color:var(--p)"><i style="font-size:20px">{{ ec.icon }}</i></span>
+                    <span style="flex:1;min-width:0">
+                      <span style="display:block;font:600 14px/1.3 'DM Sans',sans-serif">{{ ec.name }}</span>
+                      <span style="display:block;margin-top:2px;font:400 12.5px/1.4 'DM Sans',sans-serif;color:#7B8783">{{ ec.detail }}</span>
+                    </span>
+                    <i style="font-size:19px;color:var(--acc)">call</i>
+                  </a>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:1px;margin-top:14px;border-radius:18px;overflow:hidden;background:#EFEBE4">
+                <sc-for list="{{ emergencyFacts }}" as="ef" hint-placeholder-count="4">
+                  <div style="display:flex;gap:12px;padding:14px;background:#fff">
+                    <i style="font-size:19px;color:var(--p);flex:0 0 auto;margin-top:1px">{{ ef.icon }}</i>
+                    <div>
+                      <p style="margin:0 0 3px;font:600 13px/1.3 'DM Sans',sans-serif">{{ ef.label }}</p>
+                      <p style="margin:0;font:400 13.5px/1.5 'DM Sans',sans-serif;color:#5A6864">{{ ef.value }}</p>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <div style="background:#fff;border-radius:24px;padding:18px;box-shadow:0 1px 2px rgba(22,33,30,.05)">
+            <h2 style="margin:0 0 12px;font:400 24px/1.1 'Instrument Serif',Georgia,serif">The address</h2>
+            <p style="margin:0;font:400 15px/1.6 'DM Sans',sans-serif;color:#4A5854">{{ fullAddress }}</p>
+            <div style="display:flex;gap:8px;margin-top:14px">
+              <a href="{{ directionsHref }}" target="_blank" rel="noopener" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;border-radius:16px;background:var(--p);color:#FBF9F6;font:600 14.5px/1 'DM Sans',sans-serif" style-hover="opacity:.92;color:#fff"><i style="font-size:19px">directions</i>Directions</a>
+              <button onClick="{{ copyAddress }}" style="min-height:50px;padding:0 18px;border-radius:16px;background:#FBF9F6;font:600 14.5px/1 'DM Sans',sans-serif;color:#3C4A46" style-hover="background:#F1EDE6"><i style="font-size:19px;vertical-align:-4px;margin-right:6px">content_copy</i>Copy</button>
+            </div>
+          </div>
+
+          <sc-if value="{{ sPowered }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:6px 0 0;text-align:center;font:400 12px/1.4 'DM Sans',sans-serif;color:#A5AEAA">{{ poweredByText }}</p>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ================= HOST ================= -->
+    <sc-if value="{{ isHostTab }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:rise .4s ease both">
+        <div style="padding:calc(env(safe-area-inset-top) + 16px) 20px 12px">
+          <h1 style="margin:0;font:400 30px/1 'Instrument Serif',Georgia,serif;letter-spacing:-.02em">Your host</h1>
+        </div>
+        <div style="padding:0 16px;display:flex;flex-direction:column;gap:12px">
+          <div style="background:#fff;border-radius:24px;padding:20px;box-shadow:0 1px 2px rgba(22,33,30,.05)">
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="position:relative;flex:0 0 auto;width:68px;height:68px;border-radius:50%;overflow:hidden;background:var(--sec)">
+                <sc-if value="{{ hostPhoto.has }}" hint-placeholder-val="{{ false }}">
+                  <div role="img" aria-label="{{ hostName }}" style="position:absolute;inset:0;background-image:url({{ hostPhoto.src }});background-size:cover;background-position:center"></div>
+                </sc-if>
+                <sc-if value="{{ hostPhoto.no }}" hint-placeholder-val="{{ true }}">
+                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:400 26px/1 'Instrument Serif',Georgia,serif;color:var(--p)">{{ hostInitials }}</div>
+                </sc-if>
+              </div>
+              <div style="min-width:0">
+                <p style="margin:0 0 4px;font:400 25px/1.1 'Instrument Serif',Georgia,serif">{{ hostName }}</p>
+                <p style="margin:0;font:500 12.5px/1.3 'DM Sans',sans-serif;color:var(--acc);letter-spacing:.02em">{{ hostRole }}</p>
+                <p style="margin:4px 0 0;font:400 12.5px/1.3 'DM Sans',sans-serif;color:#7B8783">{{ hostResponse }}</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:11px;margin-top:16px;padding:15px 16px;border-radius:18px;background:#FBF9F6">
+              <i style="font-size:18px;color:var(--p);flex:0 0 auto">format_quote</i>
+              <p style="margin:0;font:400 14px/1.6 'DM Sans',sans-serif;color:#3C4A46;font-style:italic">{{ hostMessage }}</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px">
+              <sc-for list="{{ hostActions }}" as="ha" hint-placeholder-count="3">
+                <a href="{{ ha.href }}" style="display:flex;align-items:center;gap:13px;min-height:58px;padding:0 16px;border-radius:18px;background:{{ ha.bg }};color:{{ ha.color }}" style-hover="opacity:.92;color:{{ ha.color }}">
+                  <i style="font-size:21px">{{ ha.icon }}</i>
+                  <span style="flex:1;font:600 15px/1 'DM Sans',sans-serif">{{ ha.label }}</span>
+                  <span style="font:400 13px/1 'DM Sans',sans-serif;opacity:.72">{{ ha.sub }}</span>
+                </a>
+              </sc-for>
+            </div>
+          </div>
+
+          <sc-if value="{{ sCoHost }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#fff;border-radius:24px;padding:18px;box-shadow:0 1px 2px rgba(22,33,30,.05)">
+              <p style="margin:0 0 12px;color:#7B8783;font:500 10.5px/1 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase">Also here to help</p>
+              <div style="display:flex;align-items:center;gap:13px">
+                <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:var(--sec);color:var(--p)"><i style="font-size:22px">support_agent</i></span>
+                <div style="flex:1;min-width:0">
+                  <p style="margin:0;font:600 15px/1.2 'DM Sans',sans-serif">{{ coHostName }}</p>
+                  <p style="margin:3px 0 0;font:400 12.5px/1.4 'DM Sans',sans-serif;color:#7B8783">{{ coHostRole }}</p>
+                </div>
+                <a href="{{ coHostTel }}" style="display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:15px;background:var(--p);color:#FBF9F6" style-hover="opacity:.9;color:#fff"><i style="font-size:21px">call</i></a>
+              </div>
+              <p style="margin:12px 0 0;font:400 13.5px/1.5 'DM Sans',sans-serif;color:#5A6864">{{ coHostNote }}</p>
+            </div>
+          </sc-if>
+
+          <div style="background:#fff;border-radius:24px;padding:18px;box-shadow:0 1px 2px rgba(22,33,30,.05)">
+            <h2 style="margin:0 0 10px;font:400 24px/1.1 'Instrument Serif',Georgia,serif">About {{ name }}</h2>
+            <p style="margin:0;font:400 14.5px/1.65 'DM Sans',sans-serif;color:#4A5854">{{ description }}</p>
+            <sc-if value="{{ hasGuideQr }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(22,33,30,.07)">
+                <div role="img" aria-label="Guide QR code" style="width:150px;height:150px;background-image:url({{ guideQr }});background-size:contain;background-position:center;background-repeat:no-repeat"></div>
+                <p style="margin:0;font:400 12.5px/1.4 'DM Sans',sans-serif;color:#7B8783">Scan to open this guide on another phone</p>
+              </div>
+            </sc-if>
+            <button onClick="{{ share }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;margin-top:14px;border-radius:16px;background:#FBF9F6;color:#3C4A46;font:600 14.5px/1 'DM Sans',sans-serif" style-hover="background:#F1EDE6"><i style="font-size:19px">ios_share</i>Share this guide</button>
+          </div>
+
+          <sc-if value="{{ sPowered }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:6px 0 0;text-align:center;font:400 12px/1.4 'DM Sans',sans-serif;color:#A5AEAA">{{ poweredByText }}</p>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="height:120px"></div>
+
+    <!-- ================= TOAST ================= -->
+    <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 104px);z-index:60;display:inline-flex;align-items:center;gap:9px;padding:13px 18px;border-radius:999px;background:#16211E;color:#FBF9F6;font:500 13.5px/1 'DM Sans',sans-serif;box-shadow:0 16px 34px -18px rgba(0,0,0,.7);animation:toastIn 2.2s ease both;white-space:nowrap">
+        <i style="font-size:18px;color:#9FD0BF">check_circle</i>{{ toast }}
+      </div>
+    </sc-if>
+
+    <!-- ================= BOTTOM NAV ================= -->
+    <div style="position:fixed;left:50%;transform:translateX(-50%);bottom:0;z-index:50;width:100%;max-width:468px;padding:8px 10px calc(env(safe-area-inset-bottom) + 8px);background:rgba(251,249,246,.86);backdrop-filter:blur(20px);border-top:1px solid rgba(22,33,30,.08)">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+          <button onClick="{{ n.onClick }}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:58px;border-radius:16px;background:{{ n.bg }};color:{{ n.color }};transition:all .2s ease" style-active="transform:scale(.95)">
+            <i style="font-size:23px;font-variation-settings:'FILL' {{ n.fill }},'wght' 400,'GRAD' 0,'opsz' 24">{{ n.icon }}</i>
+            <span style="font:{{ n.weight }} 10.5px/1 'DM Sans',sans-serif;letter-spacing:.02em">{{ n.label }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 430, &quot;height&quot;: 932 },
+  &quot;brandPreset&quot;: {
+    &quot;editor&quot;: &quot;enum&quot;,
+    &quot;options&quot;: [&quot;From property.js&quot;, &quot;Forest &amp; Clay&quot;, &quot;Slate &amp; Amber&quot;, &quot;Ink &amp; Rose&quot;, &quot;Sand &amp; Sea&quot;],
+    &quot;default&quot;: &quot;From property.js&quot;,
+    &quot;tsType&quot;: &quot;string&quot;,
+    &quot;section&quot;: &quot;Branding&quot;,
+    &quot;label&quot;: &quot;Color preset&quot;
+  },
+  &quot;heroStyle&quot;: {
+    &quot;editor&quot;: &quot;enum&quot;,
+    &quot;options&quot;: [&quot;Tall photo&quot;, &quot;Compact&quot;],
+    &quot;default&quot;: &quot;Tall photo&quot;,
+    &quot;tsType&quot;: &quot;string&quot;,
+    &quot;section&quot;: &quot;Branding&quot;
+  },
+  &quot;startTab&quot;: {
+    &quot;editor&quot;: &quot;enum&quot;,
+    &quot;options&quot;: [&quot;Home&quot;, &quot;Stay&quot;, &quot;Explore&quot;, &quot;Info&quot;, &quot;Host&quot;],
+    &quot;default&quot;: &quot;Home&quot;,
+    &quot;tsType&quot;: &quot;string&quot;,
+    &quot;section&quot;: &quot;Behavior&quot;,
+    &quot;label&quot;: &quot;Opening tab&quot;
+  }
+}">
+const PRESETS = {
+  "Forest & Clay": { p: "#1F3A33", sec: "#F2EDE4", acc: "#C0653C" },
+  "Slate & Amber": { p: "#26303A", sec: "#ECEDF0", acc: "#B4772A" },
+  "Ink & Rose": { p: "#2A2530", sec: "#F1ECEE", acc: "#A75767" },
+  "Sand & Sea": { p: "#1E3A45", sec: "#EEEDE4", acc: "#4E8478" }
+};
+
+const BADGE_STYLE = {
+  "Host Favorite": { bg: "var(--acc)", color: "#fff" },
+  "Local Favorite": { bg: "rgba(251,249,246,.92)", color: "#3C4A46" },
+  "Best Breakfast": { bg: "rgba(251,249,246,.92)", color: "#3C4A46" },
+  "Date Night": { bg: "rgba(12,22,19,.62)", color: "#FBF9F6" },
+  "Family Friendly": { bg: "rgba(251,249,246,.92)", color: "#3C4A46" },
+  "Walking Distance": { bg: "rgba(12,22,19,.62)", color: "#FBF9F6" }
+};
+
+class Component extends DCLogic {
+  state = { tab: "home", data: null, cat: "All", open: {}, done: {}, toast: "", ready: false };
+
+  componentDidMount() {
+    const startTab = (this.props.startTab || "Home").toLowerCase();
+    if (startTab !== "home") this.setState({ tab: startTab });
+    let tries = 0;
+    const hunt = () => {
+      if (window.propertyData) return this.boot(window.propertyData);
+      if (tries++ < 120) this._t = setTimeout(hunt, 50);
+    };
+    hunt();
+  }
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._toast); }
+
+  boot(d) {
+    let done = {};
+    try { done = JSON.parse(localStorage.getItem(this.storeKey(d)) || "{}") || {}; } catch (e) {}
+    this.setState({ data: d, done });
+    this.applyBrand(d);
+    if (d.property && d.property.name) document.title = d.property.name + " — Guest Guide";
+  }
+
+  storeKey(d) {
+    const n = (d && d.property && d.property.name) || "property";
+    return "stayguide.checkout." + n.toLowerCase().replace(/\s+/g, "-");
+  }
+
+  applyBrand(d) {
+    const preset = this.props.brandPreset;
+    const b = (d && d.branding) || {};
+    let c = { p: b.primaryColor || "#1F3A33", sec: b.secondaryColor || "#F2EDE4", acc: b.accentColor || "#C0653C" };
+    if (preset && preset !== "From property.js" && PRESETS[preset]) c = PRESETS[preset];
+    const r = document.documentElement.style;
+    r.setProperty("--p", c.p);
+    r.setProperty("--sec", c.sec);
+    r.setProperty("--acc", c.acc);
+    r.setProperty("--heroH", this.props.heroStyle === "Compact" ? "300px" : "392px");
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", c.p);
+  }
+
+  componentDidUpdate(prev) {
+    if (this.state.data && (prev.brandPreset !== this.props.brandPreset || prev.heroStyle !== this.props.heroStyle)) {
+      this.applyBrand(this.state.data);
+    }
+  }
+
+  /* ---------- helpers ---------- */
+  img(src, label) {
+    const has = !!(src && String(src).trim());
+    return { has, no: !has, src: src || "", label: label || "Photo — drop a file in /photos and set the path in property.js" };
+  }
+  mapsHref(q) { return "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(q || ""); }
+  flash(msg) {
+    clearTimeout(this._toast);
+    this.setState({ toast: msg });
+    this._toast = setTimeout(() => this.setState({ toast: "" }), 2150);
+  }
+  copyText(text, msg) {
+    const done = () => this.flash(msg);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, () => this.legacyCopy(text, done));
+    } else this.legacyCopy(text, done);
+  }
+  legacyCopy(text, cb) {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta); cb();
+  }
+  go(tab, anchor) {
+    this.setState({ tab }, () => {
+      window.scrollTo({ top: 0 });
+      if (!anchor) return;
+      requestAnimationFrame(() => {
+        const el = document.getElementById(anchor);
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 96, behavior: "smooth" });
+      });
+    });
+  }
+  toggleTask(i) {
+    const done = Object.assign({}, this.state.done);
+    done[i] = !done[i];
+    this.setState({ done, ready: false });
+    try { localStorage.setItem(this.storeKey(this.state.data), JSON.stringify(done)); } catch (e) {}
+  }
+
+  renderVals() {
+    const d = this.state.data || {};
+    const p = d.property || {}, s = d.settings || {}, w = d.wifi || {}, h = d.host || {},
+      ci = d.checkIn || {}, co = d.checkOut || {}, em = d.emergency || {}, wl = d.welcome || {};
+    const tab = this.state.tab;
+    const on = (flag, arr) => flag !== false && (arr === undefined || (arr && arr.length > 0));
+    const fullAddress = [p.address, [p.city, p.state].filter(Boolean).join(", "), p.zip].filter(Boolean).join(" · ");
+    const dirTarget = [p.address, p.city, p.state, p.zip].filter(Boolean).join(" ");
+
+    /* ---- explore ---- */
+    const restaurants = (s.showRestaurants !== false && d.restaurants) || [];
+    const activities = (s.showActivities !== false && d.activities) || [];
+    const raw = [].concat(
+      restaurants.map((r) => Object.assign({}, r, { kind: "eat" })),
+      activities.map((a) => Object.assign({}, a, { kind: "do" }))
+    );
+    const cat = this.state.cat;
+    const present = {};
+    raw.forEach((x) => { present[x.category] = true; (x.badges || []).forEach((b) => { if (b === "Host Favorite") present["Host Favorites"] = true; }); });
+    const catList = ["All"].concat((s.exploreCategories || []).filter((c) => present[c]));
+    const cats = catList.map((c) => {
+      const active = c === cat;
+      return {
+        label: c, onClick: () => this.setState({ cat: c }),
+        bg: active ? "var(--p)" : "#fff",
+        color: active ? "#FBF9F6" : "#3C4A46",
+        border: active ? "var(--p)" : "rgba(22,33,30,.1)"
+      };
+    });
+    const filtered = raw.filter((x) => {
+      if (cat === "All") return true;
+      if (cat === "Host Favorites") return (x.badges || []).indexOf("Host Favorite") > -1;
+      return x.category === cat;
+    });
+    const places = filtered.map((x, i) => {
+      const meta = [];
+      if (x.distance) meta.push({ icon: "near_me", text: x.distance });
+      if (x.driveTime) meta.push({ icon: "schedule", text: x.driveTime });
+      if (x.price) meta.push({ icon: "payments", text: x.price });
+      if (x.cost) meta.push({ icon: "sell", text: x.cost });
+      const actions = [{ label: "Directions", icon: "directions", href: this.mapsHref((x.address || x.name) + " " + (p.city || "")), target: "_blank", bg: "var(--p)", color: "#FBF9F6" }];
+      if (x.website) actions.push({ label: "Website", icon: "language", href: x.website, target: "_blank", bg: "#FBF9F6", color: "#3C4A46" });
+      if (x.phone) actions.push({ label: "Call", icon: "call", href: "tel:" + x.phone, target: "_self", bg: "#FBF9F6", color: "#3C4A46" });
+      return {
+        key: x.name + i, name: x.name, category: x.category, description: x.description,
+        hostNote: x.hostNote, hasNote: !!x.hostNote,
+        address: x.address, hasAddress: !!x.address,
+        meta, actions,
+        badges: (x.badges || []).map((b) => Object.assign({ label: b }, BADGE_STYLE[b] || { bg: "rgba(251,249,246,.92)", color: "#3C4A46" })),
+        img: this.img(x.image, x.imageLabel)
+      };
+    });
+
+    /* ---- check-in blocks ---- */
+    const cib = [];
+    if (p.address) cib.push({ icon: "home_pin", title: "Address", body: fullAddress });
+    if (ci.arrivalInstructions) cib.push({ icon: "signpost", title: "Finding the house", body: ci.arrivalInstructions });
+    if (ci.parkingInstructions) cib.push({ icon: "local_parking", title: "Parking", body: ci.parkingInstructions });
+    if (ci.entranceInstructions) cib.push({ icon: "door_front", title: "Which entrance", body: ci.entranceInstructions });
+    if (ci.doorInstructions) cib.push({ icon: "key", title: "The lock", body: ci.doorInstructions });
+    if (ci.additionalNotes) cib.push({ icon: "info", title: "Good to know", body: ci.additionalNotes });
+
+    /* ---- guide ---- */
+    const guide = ((s.showHouseGuide !== false && d.houseGuide) || []).map((g, i) => {
+      const open = !!this.state.open[i];
+      return {
+        key: g.title + i, title: g.title, description: g.description, icon: g.icon || "help",
+        steps: g.steps || [], open, rot: open ? 180 : 0,
+        image: g.image || "", hasImage: !!(g.image && String(g.image).trim()),
+        toggle: () => { const o = Object.assign({}, this.state.open); o[i] = !o[i]; this.setState({ open: o }); }
+      };
+    });
+
+    /* ---- checkout ---- */
+    const taskList = (s.showCheckOut !== false && co.tasks) || [];
+    const doneCount = taskList.filter((t, i) => this.state.done[i]).length;
+    const tasks = taskList.map((t, i) => {
+      const ck = !!this.state.done[i];
+      return {
+        key: i, label: t, toggle: () => this.toggleTask(i),
+        mark: ck ? "check" : "",
+        boxBg: ck ? "var(--acc)" : "transparent",
+        boxBorder: ck ? "var(--acc)" : "rgba(22,33,30,.2)",
+        rowBg: ck ? "#FBF9F6" : "#fff",
+        textColor: ck ? "#9AA5A1" : "#16211E",
+        strike: ck ? "line-through" : "none"
+      };
+    });
+    const allDone = taskList.length > 0 && doneCount === taskList.length;
+
+    /* ---- emergency ---- */
+    const eCalls = [];
+    if (em.hospital) eCalls.push({ icon: "local_hospital", name: em.hospital.name, detail: em.hospital.detail, href: "tel:" + (em.hospital.phone || "911") });
+    if (em.urgentCare) eCalls.push({ icon: "medical_services", name: em.urgentCare.name, detail: em.urgentCare.detail, href: "tel:" + (em.urgentCare.phone || "911") });
+    if (h.phone) eCalls.push({ icon: "person", name: h.name + " (host)", detail: em.hostEmergency || h.responseTime || "", href: "tel:" + h.phone });
+    const eFacts = [];
+    if (em.fireExtinguisher) eFacts.push({ icon: "fire_extinguisher", label: "Fire extinguisher", value: em.fireExtinguisher });
+    if (em.firstAid) eFacts.push({ icon: "medication", label: "First aid kit", value: em.firstAid });
+    if (em.exits) eFacts.push({ icon: "exit_to_app", label: "Emergency exits", value: em.exits });
+    if (em.gasShutoff) eFacts.push({ icon: "propane", label: "Gas shut-off", value: em.gasShutoff });
+    if (em.waterShutoff) eFacts.push({ icon: "water_drop", label: "Water shut-off", value: em.waterShutoff });
+
+    /* ---- host ---- */
+    const hostActions = [];
+    if (h.phone) hostActions.push({ label: "Text host", sub: h.phoneDisplay || "", icon: "sms", href: "sms:" + h.phone, bg: "var(--p)", color: "#FBF9F6" });
+    if (h.phone) hostActions.push({ label: "Call host", sub: h.phoneDisplay || "", icon: "call", href: "tel:" + h.phone, bg: "#FBF9F6", color: "#16211E" });
+    if (h.email) hostActions.push({ label: "Email host", sub: "", icon: "mail", href: "mailto:" + h.email, bg: "#FBF9F6", color: "#16211E" });
+    const ch = h.coHost || {};
+
+    /* ---- quick actions ---- */
+    const qaDefs = [
+      { id: "wifi", label: "Wi-Fi", icon: "wifi", show: s.showWifi !== false, go: ["stay", "sec-wifi"] },
+      { id: "dir", label: "Directions", icon: "directions", show: true, href: this.mapsHref(dirTarget) },
+      { id: "rules", label: "House rules", icon: "gavel", show: on(s.showHouseRules, d.houseRules), go: ["stay", "sec-rules"] },
+      { id: "cin", label: "Check-in", icon: "login", show: s.showCheckIn !== false, go: ["stay", "sec-checkin"] },
+      { id: "cout", label: "Check-out", icon: "logout", show: s.showCheckOut !== false, go: ["info", "sec-checkout"] },
+      { id: "host", label: "Contact host", icon: "chat_bubble", show: !!h.name, go: ["host", null] }
+    ];
+    const quickActions = qaDefs.filter((q) => q.show).map((q) => ({
+      key: q.id, label: q.label, icon: q.icon,
+      onClick: q.href ? () => window.open(q.href, "_blank", "noopener") : () => this.go(q.go[0], q.go[1])
+    }));
+
+    /* ---- nav ---- */
+    const navDefs = [
+      { id: "home", label: "Home", icon: "cottage" },
+      { id: "stay", label: "Stay", icon: "vpn_key" },
+      { id: "explore", label: "Explore", icon: "explore" },
+      { id: "info", label: "Info", icon: "checklist" },
+      { id: "host", label: "Host", icon: "support_agent" }
+    ];
+    const nav = navDefs.map((n) => {
+      const active = tab === n.id;
+      return {
+        key: n.id, label: n.label, icon: n.icon,
+        onClick: () => this.go(n.id, null),
+        bg: active ? "var(--sec)" : "transparent",
+        color: active ? "var(--p)" : "#8A9490",
+        fill: active ? 1 : 0,
+        weight: active ? 600 : 500
+      };
+    });
+
+    const stayJumps = [
+      { key: "ci", label: "Check-in", show: s.showCheckIn !== false, a: "sec-checkin" },
+      { key: "wf", label: "Wi-Fi", show: s.showWifi !== false, a: "sec-wifi" },
+      { key: "ru", label: "House rules", show: on(s.showHouseRules, d.houseRules), a: "sec-rules" },
+      { key: "gu", label: "How things work", show: on(s.showHouseGuide, d.houseGuide), a: "sec-guide" }
+    ].filter((j) => j.show).map((j) => ({ key: j.key, label: j.label, onClick: () => this.go("stay", j.a) }));
+
+    return {
+      /* screens */
+      isHome: tab === "home", isStay: tab === "stay", isExplore: tab === "explore",
+      isInfo: tab === "info", isHostTab: tab === "host",
+      nav, stayJumps, quickActions,
+
+      /* property */
+      name: p.name || "", tagline: p.tagline || "", description: p.description || "",
+      city: p.city || "", cityState: [p.city, p.state].filter(Boolean).join(", "),
+      fullAddress, hero: this.img(p.heroImage, p.heroImageLabel),
+      directionsHref: this.mapsHref(dirTarget),
+      copyAddress: () => this.copyText(fullAddress.replace(/ · /g, ", "), "Address copied"),
+
+      /* welcome + times */
+      welcomeTitle: wl.title || ("Welcome to " + (p.name || "")), welcomeMessage: wl.message || "",
+      checkInTime: ci.time || "—", checkOutTime: co.time || "—",
+
+      /* wifi */
+      sWifi: s.showWifi !== false && !!w.network,
+      wifiNetwork: w.network || "", wifiPassword: w.password || "",
+      wifiNote: w.note || "", hasWifiNote: !!w.note,
+      wifiQr: w.qrImage || "", hasWifiQr: !!(w.qrImage && String(w.qrImage).trim()),
+      copyWifi: () => this.copyText(w.password || "", "Wi-Fi password copied"),
+
+      /* check-in */
+      sCheckIn: s.showCheckIn !== false && cib.length > 0,
+      checkInBlocks: cib.map((b, i) => Object.assign({ key: i }, b)),
+      accessCodeNote: ci.accessCodeNote || "Your access code will be sent separately by your host.",
+      checkInPhotos: ci.photos || [], hasCheckInPhotos: !!(ci.photos && ci.photos.length),
+
+      /* rules + guide */
+      sRules: on(s.showHouseRules, d.houseRules),
+      rules: ((d.houseRules) || []).map((r, i) => Object.assign({ key: i }, r)),
+      sGuide: on(s.showHouseGuide, d.houseGuide), guide, guideCount: guide.length,
+
+      /* explore */
+      cats, places, noPlaces: places.length === 0 && !!this.state.data,
+      sEssentials: on(s.showEssentials, d.localEssentials),
+      essentials: ((d.localEssentials) || []).map((e, i) => Object.assign({ key: i }, e, {
+        href: this.mapsHref((e.address || e.name) + " " + (p.city || ""))
+      })),
+
+      /* checkout */
+      sCheckOut: s.showCheckOut !== false && taskList.length > 0,
+      checkOutInstructions: co.instructions || "",
+      tasks, donePct: taskList.length ? Math.round((doneCount / taskList.length) * 100) : 0,
+      doneLabel: doneCount + " of " + taskList.length + " done",
+      ready: this.state.ready,
+      readyLabel: this.state.ready ? "Checked out — thank you!" : (allDone ? "I'm ready to check out" : "Finish the list to check out"),
+      readyIcon: this.state.ready ? "check_circle" : "task_alt",
+      readyBg: this.state.ready ? "#E6EFE9" : (allDone ? "var(--acc)" : "#F1EDE6"),
+      readyColor: this.state.ready ? "#2E5A46" : (allDone ? "#fff" : "#A5AEAA"),
+      readyClick: () => { if (allDone && !this.state.ready) this.setState({ ready: true }); else if (!allDone) this.flash("A few items left on the list"); },
+
+      /* emergency */
+      sEmergency: s.showEmergency !== false && (eCalls.length > 0 || eFacts.length > 0),
+      emergencyCalls: eCalls.map((x, i) => Object.assign({ key: i }, x)),
+      emergencyFacts: eFacts.map((x, i) => Object.assign({ key: i }, x)),
+
+      /* host */
+      hostName: h.name || "", hostRole: h.role || "Your host", hostResponse: h.responseTime || "",
+      hostFirstName: (h.name || "your host").split(" ")[0],
+      hostMessage: wl.hostMessage || "", hostActions: hostActions.map((x, i) => Object.assign({ key: i }, x)),
+      hostPhoto: this.img(h.photo, h.photoLabel),
+      hostInitials: (h.name || "H").split(" ").map((x) => x[0]).slice(0, 2).join(""),
+      sCoHost: s.showCoHost !== false && !!ch.name,
+      coHostName: ch.name || "", coHostRole: ch.role || "", coHostNote: ch.note || "",
+      coHostTel: "tel:" + (ch.phone || ""),
+      guideQr: p.guideQrImage || "", hasGuideQr: !!(p.guideQrImage && String(p.guideQrImage).trim()),
+      share: () => {
+        const url = window.location.href;
+        if (navigator.share) navigator.share({ title: (p.name || "Guest guide") + " — Guest Guide", url: url }).catch(() => {});
+        else this.copyText(url, "Guide link copied");
+      },
+
+      /* misc */
+      sPowered: !!s.showPoweredBy, poweredByText: s.poweredByText || "",
+      goHost: () => this.go("host", null),
+      goWifi: () => this.go("stay", "sec-wifi"),
+      goCheckIn: () => this.go("stay", "sec-checkin"),
+      goCheckOut: () => this.go("info", "sec-checkout"),
+      goEmergency: () => this.go("info", "sec-emergency"),
+      toast: this.state.toast, hasToast: !!this.state.toast
+    };
+  }
+}
+</script>
+</body>
+</html>
